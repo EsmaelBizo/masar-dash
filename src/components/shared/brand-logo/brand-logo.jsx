@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes';
 import { cn } from '../../../lib/cn';
-import logoSvg from '../../../assets/images/logo.svg';
 
 export function BrandLogo({ variant = 'default', collapsed = false, className }) {
   const isLightText = variant === 'footer' || variant === 'header';
@@ -17,7 +16,20 @@ export function BrandLogo({ variant = 'default', collapsed = false, className })
       aria-label="مَسار | MASAR Dashboard - الرئيسية"
     >
       <span className="grid size-11 max-[650px]:size-[38px] shrink-0 place-items-center rounded-xl border border-[#C88A32]/40 bg-gradient-to-br from-[#163A5F] to-[#0B1929] shadow-lg">
-        <img src={logoSvg} alt="" className="size-9 object-contain" />
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path
+            d="M6 27V14C6 8.5 10.5 4 16 4C21.5 4 26 8.5 26 14V27"
+            stroke="#C88A32"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M10 27V15C10 11.7 12.7 9 16 9C19.3 9 22 11.7 22 15V27"
+            stroke="#F7F4EE"
+            strokeWidth="1.6"
+          />
+          <path d="M12 27L15 19H17L20 27" stroke="#2E6F5E" strokeWidth="2" />
+        </svg>
       </span>
 
       {!collapsed && (
