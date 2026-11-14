@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   useTripDetailQuery,
   useBookingsQuery,
@@ -51,7 +52,8 @@ export function TripSeatsPreviewModal({ trip, onClose, onEditTrip }) {
     seatPassengerMap.size || activeTrip.bookedSeatsCount || 0;
   const availableCount = Math.max(0, totalSeats - bookedCount);
 
-  return (
+  return createPortal(
+    (
     <div
       className="fixed inset-0 z-[210] grid animate-fade place-items-center overflow-y-auto bg-black/70 p-4 backdrop-blur-md"
       onClick={(e) => {
@@ -300,6 +302,8 @@ export function TripSeatsPreviewModal({ trip, onClose, onEditTrip }) {
         </div>
       </div>
     </div>
+    ),
+    document.body
   );
 }
 
