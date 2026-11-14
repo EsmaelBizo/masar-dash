@@ -1,0 +1,39 @@
+{
+  "name": "masar-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "لوحة التحكم المركزية لمنصة مَسار | MASAR لحجز رحلات البولمانات بين المحافظات السورية (SAIRNA BACKEND)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.0.0-alpha.6",
+    "@tailwindcss/vite": "^4.3.5",
+    "@tanstack/react-query": "^5.107.1",
+    "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.4",
+    "embla-carousel-react": "^8.5.2",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-day-picker": "^9.5.1",
+    "react-dom": "^19.0.0",
+    "react-resizable-panels": "^2.1.7",
+    "react-router-dom": "^7.18.5",
+    "recharts": "^2.15.4",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.5",
+    "zustand": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.1.0"
+  }
+}
