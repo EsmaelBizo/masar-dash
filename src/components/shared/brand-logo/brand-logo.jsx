@@ -2,14 +2,9 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes';
 import { cn } from '../../../lib/cn';
 import iconDarkSvg from '../../../assets/images/masar-icon-dark.svg';
-import logoBrandSvg from '../../../assets/images/masar-logo-brand.svg';
 import logoLockupSvg from '../../../assets/images/masar-logo-lockup.svg';
-import { useThemeStore } from '../../../store/use-theme-store';
 
 export function BrandLogo({ variant = 'default', collapsed = false, className }) {
-  const theme = useThemeStore((state) => state.theme);
-  const isDark = theme === 'dark';
-
   return (
     <Link
       to={ROUTES.OVERVIEW}
@@ -21,13 +16,7 @@ export function BrandLogo({ variant = 'default', collapsed = false, className })
       aria-label="مَسار | MASAR Dashboard - الرئيسية"
     >
       <img
-        src={
-          isDark
-            ? iconDarkSvg
-            : collapsed
-              ? logoBrandSvg
-              : logoLockupSvg
-        }
+        src={collapsed ? iconDarkSvg : logoLockupSvg}
         alt="مَسار | MASAR"
         className={cn(
           'object-contain',
