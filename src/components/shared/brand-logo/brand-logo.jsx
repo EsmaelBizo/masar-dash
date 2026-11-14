@@ -19,13 +19,11 @@ export function BrandLogo({ variant = 'default', collapsed = false, className })
       )}
       aria-label="مَسار | MASAR Dashboard - الرئيسية"
     >
-      <span className="grid size-11 max-[650px]:size-[38px] shrink-0 place-items-center rounded-xl border border-[#C88A32]/40 bg-gradient-to-br from-[#163A5F] to-[#0B1929] shadow-lg">
         <img
           src={theme === 'light' ? iconWhiteSvg : iconDarkSvg}
           alt=""
-          className="size-9 rounded-lg object-contain"
+          className="size-10 rounded-lg object-contain"
         />
-      </span>
 
       {!collapsed && (
         <span className="flex flex-col leading-tight">

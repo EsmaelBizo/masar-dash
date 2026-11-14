@@ -1,5 +1,5 @@
 import heroSvg from '../../../../../../assets/images/hero.svg';
-import logoSvg from '../../../../../../assets/images/logo.svg';
+import logoSvg from '../../../../../../assets/images/masar-icon-white.svg';
 import { API_DOCS_LINKS } from '../../../../../../constants/routes';
 import { SairnaIcon } from '../../../../../../components/ui/sairna-icon';
 
