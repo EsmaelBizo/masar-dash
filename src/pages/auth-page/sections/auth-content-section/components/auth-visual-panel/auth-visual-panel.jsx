@@ -1,5 +1,5 @@
 import heroSvg from '../../../../../../assets/images/hero.svg';
-import logoSvg from '../../../../../../assets/images/logo.svg';
+import logoBrandSvg from '../../../../../../assets/images/masar-logo-brand.svg';
 import { API_DOCS_LINKS } from '../../../../../../constants/routes';
 import { SairnaIcon } from '../../../../../../components/ui/sairna-icon';
 
@@ -16,7 +16,7 @@ export function AuthVisualPanel() {
 
       <div className="relative z-20">
         <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/40 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold text-[#F7F4EE]">
-          <img src={logoSvg} alt="" className="size-5" />
+          <img src={logoBrandSvg} alt="" className="size-5 object-contain" />
           <span>بوابة الإدارة المركزية — مَسار | MASAR</span>
         </div>
 
