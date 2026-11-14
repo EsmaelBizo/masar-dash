@@ -76,20 +76,43 @@ export function CompaniesContentSection() {
   };
 
   const handleDeleteCompany = (company) => {
+    const companyTripsCount = trips.filter(
+      (trip) => String(trip.companyId) === String(company.id)
+    ).length;
+    const companyBookingsCount = bookings.filter(
+      (booking) => String(booking.company?.id) === String(company.id)
+    ).length;
+    const hasRelations = companyTripsCount > 0 || companyBookingsCount > 0;
+
     openConfirmDialog({
-      title: `حذف شركة النقل «${company.name}»`,
-      description:
-        'هل أنت متأكد من حذف هذه الشركة من قاعدة بيانات مَسار؟ في حال وجود رحلات مرتبطة بها يفضل إيقاف تفعيلها بدلاً من الحذف.',
-      confirmLabel: 'حذف الشركة',
+      title: hasRelations
+        ? `إيقاف شركة النقل «${company.name}»`
+        : `حذف شركة النقل «${company.name}»`,
+      description: hasRelations
+        ? `لا يمكن حذف الشركة لارتباطها بـ ${companyTripsCount} رحلة و${companyBookingsCount} حجز. سيتم إيقافها بدلاً من ذلك للحفاظ على السجلات الحالية.`
+        : 'هل أنت متأكد من حذف هذه الشركة من قاعدة بيانات مَسار؟',
+      confirmLabel: hasRelations ? 'إيقاف الشركة' : 'حذف الشركة',
       variant: 'danger',
       onConfirm: async () => {
         try {
-          await deleteCompanyMutation.mutateAsync(company.id);
-          showToast(`تم حذف شركة «${company.name}» بنجاح.`);
+          if (hasRelations) {
+            await updateCompanyMutation.mutateAsync({
+              id: company.id,
+              name: company.name,
+              logoUrl: company.logoUrl || '',
+              isActive: false,
+            });
+            showToast(`تم إيقاف شركة «${company.name}» للحفاظ على الرحلات والحجوزات المرتبطة بها.`);
+          } else {
+            await deleteCompanyMutation.mutateAsync(company.id);
+            showToast(`تم حذف شركة «${company.name}» بنجاح.`);
+          }
         } catch (error) {
           showToast(
             error.response?.data?.message ||
-              'تعذر حذف الشركة لارتباطها برحلات وحجوزات حالية.',
+              (hasRelations
+                ? 'تعذر إيقاف الشركة.'
+                : 'تعذر حذف الشركة.'),
             'error'
           );
         }
