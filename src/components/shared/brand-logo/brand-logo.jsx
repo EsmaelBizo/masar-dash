@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../constants/routes';
 import { cn } from '../../../lib/cn';
 import iconDarkSvg from '../../../assets/images/masar-icon-dark.svg';
+import iconWhiteSvg from '../../../assets/images/masar-icon-white.svg';
+import { useThemeStore } from '../../../store/use-theme-store';
 
 export function BrandLogo({ variant = 'default', collapsed = false, className }) {
+  const theme = useThemeStore((state) => state.theme);
   const isLightText = variant === 'footer' || variant === 'header';
 
   return (
@@ -17,7 +20,11 @@ export function BrandLogo({ variant = 'default', collapsed = false, className })
       aria-label="مَسار | MASAR Dashboard - الرئيسية"
     >
       <span className="grid size-11 max-[650px]:size-[38px] shrink-0 place-items-center rounded-xl border border-[#C88A32]/40 bg-gradient-to-br from-[#163A5F] to-[#0B1929] shadow-lg">
-        <img src={iconDarkSvg} alt="" className="size-9 rounded-lg object-contain" />
+        <img
+          src={theme === 'light' ? iconWhiteSvg : iconDarkSvg}
+          alt=""
+          className="size-9 rounded-lg object-contain"
+        />
       </span>
 
       {!collapsed && (
