@@ -88,7 +88,14 @@ export function useDeleteCompanyMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteDashboardCompany,
-    onSuccess: () => {
+    onSuccess: (_data, deletedCompanyId) => {
+      queryClient.setQueryData(
+        DASHBOARD_QUERY_KEYS.companies,
+        (companies = []) =>
+          companies.filter(
+            (company) => String(company.id) !== String(deletedCompanyId)
+          )
+      );
       queryClient.invalidateQueries({ queryKey: DASHBOARD_QUERY_KEYS.companies });
       queryClient.invalidateQueries({ queryKey: DASHBOARD_QUERY_KEYS.overview });
     },

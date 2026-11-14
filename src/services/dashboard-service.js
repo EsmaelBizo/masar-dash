@@ -179,7 +179,9 @@ export async function fetchDashboardCities() {
 
 // 3. Companies (GET, POST, PATCH, DELETE)
 export async function fetchDashboardCompanies() {
-  const { data } = await apiClient.get('/companies');
+  const { data } = await apiClient.get('/companies', {
+    params: { _t: Date.now() },
+  });
   const list = unwrap(data);
   const items = Array.isArray(list) ? list : list?.items || [];
   return items.map((company) => normalizeCompanyItem(company, company.id));
