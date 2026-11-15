@@ -63,12 +63,3 @@ export const SIDEBAR_NAV_GROUPS = [
     ],
   },
 ];
-
-export const API_DOCS_LINKS = {
-  MAIN_SWAGGER: 'https://sairna.abdulrahman-hares.com/api/docs',
-  WEBSITE_SWAGGER: 'https://sairna.abdulrahman-hares.com/api/docs/website',
-  DASHBOARD_SWAGGER: 'https://sairna.abdulrahman-hares.com/api/docs/dashboard',
-  HEALTH_CHECK: 'https://sairna.abdulrahman-hares.com/api/v1/health',
-  WEBSITE_BASE: 'https://sairna.abdulrahman-hares.com/api/v1/website',
-  DASHBOARD_BASE: 'https://sairna.abdulrahman-hares.com/api/v1/dashboard',
-};

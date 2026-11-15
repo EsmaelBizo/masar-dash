@@ -17,7 +17,7 @@ function normalizeAuthResponse(data, credentials) {
     payload?.user ||
     payload?.profile ||
     data?.user || {
-      name: payload?.name || 'SAIRNA Admin',
+      name: payload?.name || 'مدير النظام',
       email: payload?.email || credentials.email,
       role: payload?.role || 'ADMIN',
     };

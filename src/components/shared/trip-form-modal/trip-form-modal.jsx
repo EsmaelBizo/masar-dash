@@ -9,7 +9,6 @@ import {
 } from '../../../hooks/use-dashboard-queries';
 import { toDatetimeLocalValue, formatMoney } from '../../../lib/formatters';
 import { FormInputField } from '../form-input-field/form-input-field';
-import { InfoNotice } from '../info-notice/info-notice';
 import { SairnaIcon } from '../../ui/sairna-icon';
 import { buttonVariants } from '../../ui/button';
 import { cn } from '../../../lib/cn';
@@ -245,9 +244,9 @@ export function TripFormModal() {
                   disabled={!isEdit}
                   className="w-full bg-transparent text-[13px] font-bold text-text outline-none disabled:opacity-65 [&>option]:bg-white [&>option]:text-[#23272D]"
                 >
-                  <option value="AVAILABLE">AVAILABLE — متاحة للحجز</option>
-                  <option value="CANCELLED">CANCELLED — ملغاة</option>
-                  <option value="COMPLETED">COMPLETED — مكتملة</option>
+                  <option value="AVAILABLE">متاحة للحجز</option>
+                  <option value="CANCELLED">ملغاة</option>
+                  <option value="COMPLETED">مكتملة</option>
                 </select>
               </div>
             </label>
@@ -312,7 +311,7 @@ export function TripFormModal() {
           {/* Departure & Arrival Datetime */}
           <div className="grid grid-cols-2 max-[650px]:grid-cols-1 gap-4">
             <FormInputField
-              label="تاريخ ووقت الانطلاق (Departure)"
+              label="تاريخ ووقت الانطلاق"
               required
               iconName="calendar"
               type="datetime-local"
@@ -323,7 +322,7 @@ export function TripFormModal() {
             />
 
             <FormInputField
-              label="تاريخ ووقت الوصول المتوقع (Arrival)"
+              label="تاريخ ووقت الوصول المتوقع"
               required
               iconName="clock"
               type="datetime-local"
@@ -392,14 +391,6 @@ export function TripFormModal() {
               </button>
             </div>
           </div>
-
-          <InfoNotice iconName="shield" variant="teal">
-            تُحفظ الرحلة مباشرة عبر المسار{' '}
-            <b dir="ltr" className="font-tabular">
-              {isEdit ? `PATCH /api/v1/dashboard/trips/${editingTrip?.id}` : 'POST /api/v1/dashboard/trips'}
-            </b>{' '}
-            وتظهر فوراً للمسافرين في محرك البحث.
-          </InfoNotice>
 
           <div className="mt-1 flex items-center justify-end gap-3 border-t border-border pt-4">
             <button

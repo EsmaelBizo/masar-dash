@@ -7,7 +7,6 @@ import {
 } from '../../../hooks/use-dashboard-queries';
 import { FormInputField } from '../form-input-field/form-input-field';
 import { CompanyLogo } from '../company-logo/company-logo';
-import { InfoNotice } from '../info-notice/info-notice';
 import { SairnaIcon } from '../../ui/sairna-icon';
 import { buttonVariants } from '../../ui/button';
 import { cn } from '../../../lib/cn';
@@ -186,7 +185,7 @@ export function CompanyFormModal() {
           />
 
           <FormInputField
-            label="رابط شعار الشركة (Logo URL - اختياري)"
+            label="رابط شعار الشركة (اختياري)"
             iconName="globe"
             name="logoUrl"
             type="url"
@@ -216,7 +215,7 @@ export function CompanyFormModal() {
             <label className="flex cursor-pointer items-center justify-between rounded-xl border border-border bg-surface-alt/50 px-4 py-3">
               <div>
                 <b className="block text-[13px] text-text">
-                  تفعيل الشركة في محرك البحث (isActive)
+                  تفعيل الشركة في محرك البحث
                 </b>
                 <small className="text-[11px] text-muted">
                   تحديد ما إذا كانت رحلات الشركة متاحة للظهور والحجز
@@ -230,16 +229,6 @@ export function CompanyFormModal() {
               />
             </label>
           )}
-
-          <InfoNotice iconName="info" variant="gold">
-            يتصل هذا النموذج مباشرة مع المسار{' '}
-            <b dir="ltr" className="font-tabular">
-              {isEdit
-                ? `PATCH /api/v1/dashboard/companies/${editingCompany?.id}`
-                : 'POST /api/v1/dashboard/companies'}
-            </b>
-            .
-          </InfoNotice>
 
           <div className="mt-1 flex items-center justify-end gap-3 border-t border-border pt-4">
             <button

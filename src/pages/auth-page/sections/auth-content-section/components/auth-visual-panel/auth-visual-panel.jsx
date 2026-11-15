@@ -1,6 +1,5 @@
 import heroSvg from '../../../../../../assets/images/hero.svg';
 import logoSvg from '../../../../../../assets/images/masar-icon-white.svg';
-import { API_DOCS_LINKS } from '../../../../../../constants/routes';
 import { SairnaIcon } from '../../../../../../components/ui/sairna-icon';
 
 const ADMIN_HIGHLIGHTS = [
@@ -26,8 +25,8 @@ export function AuthVisualPanel() {
           <span className="text-accent">حجز البولمانات في سوريا</span>
         </h2>
         <p className="text-[13px] leading-[1.8] text-[#DCE6F0]">
-          على الرحب والسعة في لوحة تحكم «مَسار» المتصلة مباشرة مع خادم SAIRNA
-          BACKEND لإدارة الأساطيل والمواعيد والحجوزات بدقة وموثوقية.
+          على الرحب والسعة في لوحة تحكم «مَسار» المركزية لإدارة أساطيل البولمان
+          والمواعيد والحجوزات بين المحافظات السورية بدقة وموثوقية.
         </p>
       </div>
 
@@ -55,29 +54,13 @@ export function AuthVisualPanel() {
       </div>
 
       <div className="relative z-20 flex flex-wrap items-center justify-between gap-2 border-t border-white/15 pt-4 text-[11px] text-[#DCE6F0]">
-        <span className="flex items-center gap-1.5">
-          <SairnaIcon name="server" size={15} className="text-accent" />
-          SAIRNA API v1
+        <span className="flex items-center gap-1.5 font-semibold">
+          <SairnaIcon name="shield" size={15} className="text-accent" />
+          منصة مَسار للنقل الذكي
         </span>
-        <div className="flex items-center gap-3">
-          <a
-            href={API_DOCS_LINKS.DASHBOARD_SWAGGER}
-            target="_blank"
-            rel="noreferrer"
-            className="font-bold text-accent hover:underline"
-          >
-            Dashboard Swagger
-          </a>
-          <span>·</span>
-          <a
-            href={API_DOCS_LINKS.MAIN_SWAGGER}
-            target="_blank"
-            rel="noreferrer"
-            className="font-bold text-[#DCE6F0] hover:text-accent"
-          >
-            Main Docs
-          </a>
-        </div>
+        <span className="font-bold text-accent">
+          تغطية شاملة لـ 14 محافظة سورية
+        </span>
       </div>
     </div>
   );

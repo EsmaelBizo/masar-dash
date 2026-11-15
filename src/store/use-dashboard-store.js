@@ -11,6 +11,7 @@ export const useDashboardStore = create((set) => ({
     originId: 'all',
     destinationId: 'all',
     status: 'all',
+    upcomingOnly: false,
   },
   companiesFilters: {
     search: '',
@@ -20,6 +21,7 @@ export const useDashboardStore = create((set) => ({
     search: '',
     status: 'all',
     companyId: 'all',
+    upcomingOnly: false,
   },
   usersFilters: {
     search: '',
@@ -48,6 +50,7 @@ export const useDashboardStore = create((set) => ({
         originId: 'all',
         destinationId: 'all',
         status: 'all',
+        upcomingOnly: false,
       },
     }),
 
@@ -63,7 +66,14 @@ export const useDashboardStore = create((set) => ({
       bookingsFilters: { ...state.bookingsFilters, ...next },
     })),
   resetBookingsFilters: () =>
-    set({ bookingsFilters: { search: '', status: 'all', companyId: 'all' } }),
+    set({
+      bookingsFilters: {
+        search: '',
+        status: 'all',
+        companyId: 'all',
+        upcomingOnly: false,
+      },
+    }),
 
   setUsersFilters: (next) =>
     set((state) => ({ usersFilters: { ...state.usersFilters, ...next } })),

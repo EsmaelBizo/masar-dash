@@ -2,6 +2,7 @@ import { useDashboardStore } from '../../../../store/use-dashboard-store';
 import { useToastStore } from '../../../../store/use-toast-store';
 import {
   useBookingsQuery,
+  useTripsQuery,
   useCompaniesQuery,
   useCancelBookingMutation,
 } from '../../../../hooks/use-dashboard-queries';
@@ -12,6 +13,7 @@ import { LoadingState } from '../../../../components/shared/loading-state/loadin
 import { EmptyStateCard } from '../../../../components/shared/empty-state-card/empty-state-card';
 import { SairnaIcon } from '../../../../components/ui/sairna-icon';
 import { buttonVariants } from '../../../../components/ui/button';
+import { cn } from '../../../../lib/cn';
 
 export function BookingsContentSection() {
   const filters = useDashboardStore((state) => state.bookingsFilters);
@@ -25,8 +27,25 @@ export function BookingsContentSection() {
   const showToast = useToastStore((state) => state.showToast);
 
   const { data: bookings = [], isLoading, isError } = useBookingsQuery();
+  const { data: trips = [] } = useTripsQuery();
   const { data: companies = [] } = useCompaniesQuery();
   const cancelMutation = useCancelBookingMutation();
+
+  const now = Date.now();
+  const getBookingDepartureAt = (booking) =>
+    booking?.trip?.departureAt ||
+    booking?.departureAt ||
+    trips.find((t) => String(t.id) === String(booking?.tripId))?.departureAt ||
+    null;
+
+  const isBookingUpcoming = (booking) => {
+    const departureAt = getBookingDepartureAt(booking);
+    if (!departureAt) return false;
+    const depTime = new Date(departureAt).getTime();
+    return !Number.isNaN(depTime) && depTime >= now;
+  };
+
+  const upcomingBookingsCount = bookings.filter(isBookingUpcoming).length;
 
   const filteredBookings = bookings.filter((booking) => {
     const q = filters.search.trim().toLowerCase();
@@ -57,7 +76,15 @@ export function BookingsContentSection() {
       filters.companyId === 'all' ||
       String(booking.company?.id) === String(filters.companyId);
 
-    return matchesSearch && matchesStatus && matchesCompany;
+    const matchesUpcoming =
+      !filters.upcomingOnly || isBookingUpcoming(booking);
+
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesCompany &&
+      matchesUpcoming
+    );
   });
 
   const confirmedBookings = bookings.filter(
@@ -74,7 +101,7 @@ export function BookingsContentSection() {
   const handleCancelBooking = (booking) => {
     openConfirmDialog({
       title: `إلغاء تذكرة الحجز (${booking.code})`,
-      description: `هل أنت متأكد من إلغاء حجز المسافر «${booking.user?.name}» على رحلة ${booking.origin?.name} ⟵ ${booking.destination?.name} عبر المسار POST /api/v1/dashboard/bookings/${booking.id}/cancel؟`,
+      description: `هل أنت متأكد من إلغاء حجز المسافر «${booking.user?.name}» على رحلة ${booking.origin?.name} ⟵ ${booking.destination?.name} وتحرير المقاعد المحجوزة؟`,
       confirmLabel: 'تأكيد الإلغاء',
       variant: 'danger',
       onConfirm: async () => {
@@ -173,7 +200,7 @@ export function BookingsContentSection() {
           </button>
         </div>
 
-        <div className="grid grid-cols-3 max-[850px]:grid-cols-1 gap-3">
+        <div className="grid grid-cols-4 max-[1100px]:grid-cols-2 max-[650px]:grid-cols-1 gap-3">
           <div className="flex h-[44px] items-center gap-2 rounded-xl border border-border bg-bg/60 px-3.5 focus-within:border-[#C88A32]">
             <SairnaIcon name="search" size={16} className="text-[#C88A32]" />
             <input
@@ -192,10 +219,10 @@ export function BookingsContentSection() {
           >
             <option value="all">جميع حالات الحجز ({bookings.length})</option>
             <option value="CONFIRMED">
-              CONFIRMED — مؤكدة ({confirmedBookings.length})
+              مؤكدة ({confirmedBookings.length})
             </option>
             <option value="CANCELLED">
-              CANCELLED — ملغاة ({cancelledBookings.length})
+              ملغاة ({cancelledBookings.length})
             </option>
           </select>
 
@@ -211,6 +238,39 @@ export function BookingsContentSection() {
               </option>
             ))}
           </select>
+
+          <button
+            type="button"
+            onClick={() => setFilters({ upcomingOnly: !filters.upcomingOnly })}
+            aria-pressed={Boolean(filters.upcomingOnly)}
+            className={cn(
+              'flex h-[44px] items-center justify-between gap-2 rounded-xl border px-3.5 text-xs font-bold transition-all duration-200 cursor-pointer',
+              filters.upcomingOnly
+                ? 'border-[#C88A32] bg-[#C88A32]/15 text-[#C88A32] shadow-sm shadow-[#C88A32]/15'
+                : 'border-border bg-bg/60 text-text hover:border-[#C88A32]/60'
+            )}
+          >
+            <span className="flex items-center gap-2 truncate">
+              <SairnaIcon
+                name="clock"
+                size={15}
+                className={
+                  filters.upcomingOnly ? 'text-[#C88A32]' : 'text-muted'
+                }
+              />
+              <span className="truncate">الحجوزات القادمة فقط</span>
+            </span>
+            <span
+              className={cn(
+                'font-num inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold transition-colors',
+                filters.upcomingOnly
+                  ? 'bg-[#C88A32] text-white'
+                  : 'bg-surface text-muted border border-border'
+              )}
+            >
+              {upcomingBookingsCount}
+            </span>
+          </button>
         </div>
       </div>
 
@@ -221,7 +281,7 @@ export function BookingsContentSection() {
         <EmptyStateCard
           iconName="alert"
           title="تعذر تحميل الحجوزات"
-          description="تحقق من الاتصال بالخادم وصلاحية الدخول."
+          description="تحقق من الاتصال وصلاحية الدخول."
         />
       ) : filteredBookings.length === 0 ? (
         <EmptyStateCard
@@ -260,6 +320,7 @@ export function BookingsContentSection() {
                   {filteredBookings.map((booking) => {
                     const isConfirmed =
                       String(booking.status).toUpperCase() === 'CONFIRMED';
+                    const departureAt = getBookingDepartureAt(booking);
 
                     return (
                       <tr
@@ -308,7 +369,7 @@ export function BookingsContentSection() {
                           </div>
                           <small className="block whitespace-nowrap font-tabular text-[10px] text-muted">
                             {booking.trip?.code || `رحلة #${booking.tripId}`} ·{' '}
-                            {formatDateTimeArabic(booking.trip?.departureAt)}
+                            {formatDateTimeArabic(departureAt)}
                           </small>
                         </td>
 
@@ -389,6 +450,7 @@ export function BookingsContentSection() {
             {filteredBookings.map((booking) => {
               const isConfirmed =
                 String(booking.status).toUpperCase() === 'CONFIRMED';
+              const departureAt = getBookingDepartureAt(booking);
               return (
                 <div
                   key={booking.id}
@@ -422,7 +484,7 @@ export function BookingsContentSection() {
                     <div className="mt-1.5 flex items-center justify-between text-[11px] text-muted">
                       <span>{booking.company?.name}</span>
                       <span className="font-tabular">
-                        {formatDateTimeArabic(booking.trip?.departureAt)}
+                        {formatDateTimeArabic(departureAt)}
                       </span>
                     </div>
                   </div>

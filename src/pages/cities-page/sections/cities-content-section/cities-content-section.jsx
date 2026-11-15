@@ -168,11 +168,7 @@ export function CitiesContentSection() {
             </h3>
             <p className="m-0 text-xs leading-relaxed text-muted">
               اختر محافظتين لمعاينة المسافة التقريبية وعدد الرحلات المجدولة
-              بينهما عبر المسار البرمجي{' '}
-              <code dir="ltr" className="font-num font-bold text-[#C88A32]">
-                GET /api/v1/dashboard/cities
-              </code>
-              .
+              بين الكراجات المعتمدة على الشبكة السورية.
             </p>
 
             <div className="mt-4 grid grid-cols-2 gap-3">

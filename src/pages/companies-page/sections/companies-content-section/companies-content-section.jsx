@@ -102,7 +102,9 @@ export function CompaniesContentSection() {
               logoUrl: company.logoUrl || '',
               isActive: false,
             });
-            showToast(`تم إيقاف شركة «${company.name}» للحفاظ على الرحلات والحجوزات المرتبطة بها.`);
+            showToast(
+              `تم إيقاف شركة «${company.name}» للحفاظ على الرحلات والحجوزات المرتبطة بها.`
+            );
           } else {
             await deleteCompanyMutation.mutateAsync(company.id);
             showToast(`تم حذف شركة «${company.name}» بنجاح.`);
@@ -110,9 +112,7 @@ export function CompaniesContentSection() {
         } catch (error) {
           showToast(
             error.response?.data?.message ||
-              (hasRelations
-                ? 'تعذر إيقاف الشركة.'
-                : 'تعذر حذف الشركة.'),
+              (hasRelations ? 'تعذر إيقاف الشركة.' : 'تعذر حذف الشركة.'),
             'error'
           );
         }
@@ -121,7 +121,13 @@ export function CompaniesContentSection() {
   };
 
   const handleViewCompanyTrips = (companyId) => {
-    setTripsFilters({ companyId: String(companyId) });
+    setTripsFilters({
+      search: '',
+      companyId: String(companyId),
+      originId: 'all',
+      destinationId: 'all',
+      status: 'all',
+    });
     navigate(ROUTES.TRIPS);
   };
 
@@ -220,12 +226,12 @@ export function CompaniesContentSection() {
 
       {/* Companies Grid */}
       {isLoading ? (
-        <LoadingState label="جارٍ تحميل شركات النقل من الخادم..." />
+        <LoadingState label="جارٍ تحميل شركات النقل المعتمدة..." />
       ) : isError ? (
         <EmptyStateCard
           iconName="alert"
           title="تعذر تحميل شركات النقل"
-          description="يرجى التحقق من الاتصال بخادم SAIRNA والمحاولة مجدداً."
+          description="يرجى التحقق من اتصال الشبكة والمحاولة مجدداً."
         />
       ) : filteredCompanies.length === 0 ? (
         <EmptyStateCard
@@ -304,56 +310,83 @@ export function CompaniesContentSection() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-col gap-2.5">
                     <button
                       type="button"
                       onClick={() => handleViewCompanyTrips(company.id)}
-                      className={cn(
-                        buttonVariants({ variant: 'outline', size: 'xs' }),
-                        'flex-1'
-                      )}
+                      className="group relative flex h-[42px] w-full items-center justify-between rounded-xl border border-[#C88A32]/40 bg-gradient-to-l from-[#163A5F] via-[#1B4571] to-[#102A45] px-3.5 text-xs font-bold text-white shadow-md shadow-[#090D14]/20 transition-all duration-300 ease-[var(--ease-masar-out)] hover:-translate-y-0.5 hover:border-[#C88A32] hover:from-[#C88A32] hover:via-[#BA7D28] hover:to-[#9E681E] hover:shadow-lg hover:shadow-[#C88A32]/25 active:translate-y-0 cursor-pointer"
                     >
-                      <SairnaIcon name="bus" size={14} /> رحلات الشركة
+                      <span className="flex items-center gap-2.5">
+                        <span className="grid size-7 place-items-center rounded-lg border border-white/15 bg-white/10 text-[#C88A32] transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white">
+                          <SairnaIcon name="bus" size={15} />
+                        </span>
+                        <span>رحلات الشركة</span>
+                      </span>
+
+                      <span className="flex items-center gap-2">
+                        <span className="font-num rounded-lg border border-white/10 bg-white/10 px-2 py-0.5 text-[11px] font-bold text-[#F7F4EE] transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white">
+                          {compTripsCount} رحلة
+                        </span>
+                        <SairnaIcon
+                          name="arrow-left"
+                          size={14}
+                          className="text-[#C88A32] transition-transform duration-300 group-hover:-translate-x-1 group-hover:text-white"
+                        />
+                      </span>
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => openCompanyModal('edit', company)}
-                      className={buttonVariants({
-                        variant: 'softGold',
-                        size: 'xs',
-                      })}
-                      title="تعديل بيانات الشركة"
-                    >
-                      <SairnaIcon name="edit" size={14} /> تعديل
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openCompanyModal('edit', company)}
+                        className={cn(
+                          buttonVariants({
+                            variant: 'softGold',
+                            size: 'xs',
+                          }),
+                          'flex-1 h-[34px] rounded-xl'
+                        )}
+                        title="تعديل بيانات الشركة"
+                      >
+                        <SairnaIcon name="edit" size={14} /> تعديل
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => handleToggleActive(company)}
-                      className={buttonVariants({
-                        variant: company.isActive ? 'subtle' : 'softTeal',
-                        size: 'xs',
-                      })}
-                      title={company.isActive ? 'إيقاف مؤقت' : 'تفعيل الشركة'}
-                    >
-                      <SairnaIcon
-                        name={company.isActive ? 'pause' : 'play'}
-                        size={14}
-                      />
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => handleToggleActive(company)}
+                        className={cn(
+                          buttonVariants({
+                            variant: company.isActive ? 'subtle' : 'softTeal',
+                            size: 'xs',
+                          }),
+                          'flex-1 h-[34px] rounded-xl'
+                        )}
+                        title={
+                          company.isActive ? 'إيقاف مؤقت' : 'تفعيل الشركة'
+                        }
+                      >
+                        <SairnaIcon
+                          name={company.isActive ? 'pause' : 'play'}
+                          size={14}
+                        />
+                        <span>{company.isActive ? 'إيقاف' : 'تفعيل'}</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteCompany(company)}
-                      className={buttonVariants({
-                        variant: 'softDanger',
-                        size: 'xs',
-                      })}
-                      title="حذف الشركة"
-                    >
-                      <SairnaIcon name="trash" size={14} />
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCompany(company)}
+                        className={cn(
+                          buttonVariants({
+                            variant: 'softDanger',
+                            size: 'xs',
+                          }),
+                          'h-[34px] px-3 rounded-xl'
+                        )}
+                        title="حذف الشركة"
+                      >
+                        <SairnaIcon name="trash" size={14} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </article>

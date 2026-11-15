@@ -26,7 +26,7 @@ export function AuthPage() {
           <BrandLogo />
           <div className="flex items-center gap-3">
             <span className="hidden sm:inline-flex rounded-full border border-[#C88A32]/30 bg-[#C88A32]/15 px-3.5 py-1 text-[11px] font-bold text-[#C88A32]">
-              SAIRNA Dashboard Portal
+              بوابة الإدارة المركزية — مَسار
             </span>
             <button
               type="button"

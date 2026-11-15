@@ -25,7 +25,7 @@ export function AuthFormPanel() {
   const handleFillDefaultAdmin = () => {
     setEmail(DEFAULT_ADMIN_EMAIL);
     setPassword(DEFAULT_ADMIN_PASSWORD);
-    showToast('تمت تعبئة بيانات حساب المدير المعتمد (ADMIN).');
+    showToast('تمت تعبئة بيانات حساب المدير المعتمد.');
   };
 
   const handleSubmit = async (event) => {
@@ -48,7 +48,7 @@ export function AuthFormPanel() {
       const message =
         error.response?.data?.message ||
         error.message ||
-        'تعذر تسجيل الدخول. تأكد من صلاحيات المدير (ADMIN).';
+        'تعذر تسجيل الدخول. تأكد من صحة بيانات حساب المدير.';
       showToast(message, 'error');
     }
   };
@@ -56,23 +56,19 @@ export function AuthFormPanel() {
   return (
     <div className="flex flex-col justify-center px-[min(5vw,64px)] py-10 max-[900px]:p-8 max-[650px]:px-5 max-[650px]:py-6">
       <div>
-        <Eyebrow>بوابة المشرفين ومديري النظام (ADMIN)</Eyebrow>
+        <Eyebrow>بوابة المشرفين ومديري النظام</Eyebrow>
         <h1 className="mt-3 mb-1.5 font-heading text-[28px] max-[650px]:text-[23px] font-bold text-text">
           تسجيل الدخول إلى <span className="text-primary dark:text-accent">لوحة مَسار</span>
         </h1>
         <p className="text-[13px] text-muted">
-          أدخل بيانات حساب المشرف للوصول إلى إدارة الشركات، جدول الرحلات،
-          والحجوزات عبر مسار{' '}
-          <code dir="ltr" className="font-tabular font-bold text-primary dark:text-accent">
-            POST /api/v1/dashboard/auth/login
-          </code>
-          .
+          أدخل بيانات حساب المشرف للوصول إلى إدارة شركات النقل، جدول الرحلات،
+          ومتابعة الحجوزات والتذاكر الإلكترونية.
         </p>
       </div>
 
       <form className="mt-6 mb-4 flex flex-col gap-4" onSubmit={handleSubmit}>
         <FormInputField
-          label="البريد الإلكتروني للمشرف (Admin Email)"
+          label="البريد الإلكتروني للمشرف"
           required
           iconName="mail"
           iconSize={19}
@@ -88,7 +84,7 @@ export function AuthFormPanel() {
         />
 
         <FormInputField
-          label="كلمة المرور (Admin Password)"
+          label="كلمة المرور"
           required
           iconName="lock"
           iconSize={19}
@@ -123,7 +119,7 @@ export function AuthFormPanel() {
           disabled={loginMutation.isPending}
         >
           {loginMutation.isPending
-            ? 'جارٍ التحقق من صلاحية ADMIN...'
+            ? 'جارٍ التحقق من بيانات الدخول...'
             : 'الدخول إلى لوحة التحكم'}
           <SairnaIcon name="arrow-left" size={18} />
         </button>
@@ -134,7 +130,7 @@ export function AuthFormPanel() {
         <div className="flex items-center justify-between gap-2 mb-2">
           <span className="flex items-center gap-1.5 text-[12px] font-bold text-accent-deep">
             <SairnaIcon name="key" size={16} />
-            بيانات الدخول المعتمدة (SAIRNA Admin)
+            بيانات الدخول المعتمدة (حساب المشرف)
           </span>
           <button
             type="button"
@@ -164,8 +160,7 @@ export function AuthFormPanel() {
       </div>
 
       <InfoNotice iconName="shield" variant="teal" className="mt-4">
-        تُحفظ جلسة المشرف برمز التوثيق (JWT Bearer Token) في المتصفح وتُرسل
-        تلقائياً مع جميع طلبات لوحة التحكم.
+        تُحفظ جلسة المشرف بشكل آمن ومشفر لضمان استمرارية العمل وحماية بيانات المنصة.
       </InfoNotice>
     </div>
   );

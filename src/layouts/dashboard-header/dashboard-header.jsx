@@ -58,10 +58,10 @@ export function DashboardHeader({ onOpenCommand }) {
 
   const handleRefreshAll = () => {
     queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-    showToast('تم تحديث كافة بيانات لوحة التحكم من الخادم.');
+    showToast('تم تحديث كافة بيانات لوحة التحكم بنجاح.');
   };
 
-  const userInitial = (user?.name || 'A').trim()[0];
+  const userInitial = (user?.name || 'م').trim()[0];
 
   return (
     <header className="sticky top-[5px] z-20 border-b border-border bg-surface-elevated backdrop-blur-xl px-4 sm:px-8 py-3.5">
@@ -88,7 +88,7 @@ export function DashboardHeader({ onOpenCommand }) {
                     ? 'border-[#2E6F5E]/30 bg-[#2E6F5E]/15 text-[#3B8C77]'
                     : 'border-[#C88A32]/30 bg-[#C88A32]/15 text-[#C88A32]'
                 )}
-                title="حالة خادم SAIRNA Backend (/api/v1/health)"
+                title="حالة اتصال منظومة مَسار"
               >
                 <span
                   className={cn(
@@ -96,7 +96,7 @@ export function DashboardHeader({ onOpenCommand }) {
                     isHealthy ? 'bg-[#3B8C77] animate-pulse' : 'bg-[#C88A32]'
                   )}
                 />
-                {isHealthy ? 'SAIRNA Online' : 'فحص الاتصال...'}
+                {isHealthy ? 'النظام متصل' : 'فحص الاتصال...'}
               </span>
             </div>
             <h1 className="m-0 truncate font-heading text-base sm:text-xl font-bold text-text">
@@ -125,7 +125,7 @@ export function DashboardHeader({ onOpenCommand }) {
             type="button"
             onClick={handleRefreshAll}
             className={buttonVariants({ variant: 'icon' })}
-            title="تحديث البيانات من الخادم"
+            title="تحديث البيانات"
             aria-label="تحديث البيانات"
           >
             <SairnaIcon name="refresh" size={16} />
@@ -159,7 +159,7 @@ export function DashboardHeader({ onOpenCommand }) {
             </span>
             <div className="hidden xl:flex flex-col leading-tight">
               <strong className="text-[11px] font-bold text-text">
-                {user?.name || 'SAIRNA Admin'}
+                {user?.name || 'مدير النظام'}
               </strong>
               <span
                 dir="ltr"

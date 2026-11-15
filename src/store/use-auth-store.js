@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
 
   login: ({ token, user, name, email, role }) => {
     const resolvedUser = user || {
-      name: name || 'SAIRNA Admin',
+      name: name || 'مدير النظام',
       email: email || 'admin@gmail.com',
       role: role || 'ADMIN',
     };

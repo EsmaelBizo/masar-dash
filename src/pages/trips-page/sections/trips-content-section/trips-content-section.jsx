@@ -39,6 +39,15 @@ export function TripsContentSection() {
 
   const [previewTrip, setPreviewTrip] = useState(null);
 
+  const now = Date.now();
+  const isTripUpcoming = (trip) => {
+    if (!trip?.departureAt) return false;
+    const depTime = new Date(trip.departureAt).getTime();
+    return !Number.isNaN(depTime) && depTime >= now;
+  };
+
+  const upcomingCount = trips.filter(isTripUpcoming).length;
+
   const filteredTrips = trips.filter((trip) => {
     const q = filters.search.trim().toLowerCase();
     const matchesSearch =
@@ -65,12 +74,15 @@ export function TripsContentSection() {
       filters.status === 'all' ||
       String(trip.status).toUpperCase() === filters.status;
 
+    const matchesUpcoming = !filters.upcomingOnly || isTripUpcoming(trip);
+
     return (
       matchesSearch &&
       matchesCompany &&
       matchesOrigin &&
       matchesDest &&
-      matchesStatus
+      matchesStatus &&
+      matchesUpcoming
     );
   });
 
@@ -217,7 +229,7 @@ export function TripsContentSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-5 max-[1150px]:grid-cols-3 max-[650px]:grid-cols-1 gap-3">
+        <div className="grid grid-cols-6 max-[1280px]:grid-cols-3 max-[650px]:grid-cols-1 gap-3">
           <div className="flex h-[44px] items-center gap-2 rounded-xl border border-border bg-bg/60 px-3 focus-within:border-[#C88A32]">
             <SairnaIcon name="search" size={16} className="text-[#C88A32]" />
             <input
@@ -274,20 +286,53 @@ export function TripsContentSection() {
             className="h-[44px] rounded-xl border border-border bg-bg/60 px-3 text-xs font-bold text-text outline-none focus:border-[#C88A32] [&>option]:bg-surface [&>option]:text-text"
           >
             <option value="all">كل الحالات التشغيلية</option>
-            <option value="AVAILABLE">AVAILABLE — متاحة</option>
-            <option value="CANCELLED">CANCELLED — ملغاة</option>
+            <option value="AVAILABLE">متاحة للحجز</option>
+            <option value="CANCELLED">ملغاة</option>
           </select>
+
+          <button
+            type="button"
+            onClick={() => setFilters({ upcomingOnly: !filters.upcomingOnly })}
+            aria-pressed={Boolean(filters.upcomingOnly)}
+            className={cn(
+              'flex h-[44px] items-center justify-between gap-2 rounded-xl border px-3.5 text-xs font-bold transition-all duration-200 cursor-pointer',
+              filters.upcomingOnly
+                ? 'border-[#C88A32] bg-[#C88A32]/15 text-[#C88A32] shadow-sm shadow-[#C88A32]/15'
+                : 'border-border bg-bg/60 text-text hover:border-[#C88A32]/60'
+            )}
+          >
+            <span className="flex items-center gap-2 truncate">
+              <SairnaIcon
+                name="clock"
+                size={15}
+                className={
+                  filters.upcomingOnly ? 'text-[#C88A32]' : 'text-muted'
+                }
+              />
+              <span className="truncate">الرحلات القادمة فقط</span>
+            </span>
+            <span
+              className={cn(
+                'font-num inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold transition-colors',
+                filters.upcomingOnly
+                  ? 'bg-[#C88A32] text-white'
+                  : 'bg-surface text-muted border border-border'
+              )}
+            >
+              {upcomingCount}
+            </span>
+          </button>
         </div>
       </div>
 
       {/* Trips Data View */}
       {isLoading ? (
-        <LoadingState label="جارٍ تحميل جدول رحلات البولمان من الخادم..." />
+        <LoadingState label="جارٍ تحميل جدول رحلات البولمان..." />
       ) : isError ? (
         <EmptyStateCard
           iconName="alert"
           title="تعذر تحميل رحلات البولمان"
-          description="تحقق من اتصال الخادم وصلاحيات المشرف ثم أعد المحاولة."
+          description="تحقق من الاتصال وصلاحيات المشرف ثم أعد المحاولة."
         />
       ) : filteredTrips.length === 0 ? (
         <EmptyStateCard

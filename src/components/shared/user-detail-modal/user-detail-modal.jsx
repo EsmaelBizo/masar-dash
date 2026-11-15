@@ -101,17 +101,11 @@ export function UserDetailModal() {
           </div>
 
           <div className="rounded-xl border border-border p-4 text-[12px]">
-            <div className="flex items-center justify-between border-b border-border pb-2.5 mb-2.5">
+            <div className="flex items-center justify-between">
               <span className="text-muted">تاريخ انضمام المسافر</span>
               <b className="font-tabular text-text">
                 {formatDateTimeArabic(user.createdAt)}
               </b>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-muted">المسار البرمجي</span>
-              <code dir="ltr" className="font-tabular text-[11px] text-primary">
-                GET /api/v1/dashboard/users/{user.id}
-              </code>
             </div>
           </div>
 

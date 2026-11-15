@@ -59,7 +59,7 @@ export function UsersContentSection() {
         <div className="bento-card rounded-3xl p-5 border-t-2 border-t-[#2E6F5E]">
           <div className="flex items-start justify-between">
             <span className="text-xs font-bold text-muted">
-              حسابات المسافرين (USER)
+              حسابات المسافرين
             </span>
             <span className="rounded-xl bg-[#2E6F5E]/15 p-2.5 text-[#3B8C77]">
               <SairnaIcon name="user" size={18} />
@@ -73,7 +73,7 @@ export function UsersContentSection() {
         <div className="bento-card rounded-3xl p-5 border-t-2 border-t-[#C88A32]">
           <div className="flex items-start justify-between">
             <span className="text-xs font-bold text-muted">
-              مديرو النظام والمشرفون (ADMIN)
+              مديرو النظام والمشرفون
             </span>
             <span className="rounded-xl bg-[#C88A32]/15 p-2.5 text-[#C88A32]">
               <SairnaIcon name="shield" size={18} />
@@ -106,8 +106,8 @@ export function UsersContentSection() {
               className="h-[44px] rounded-xl border border-border bg-bg/60 px-3.5 text-xs font-bold text-text outline-none focus:border-[#C88A32] [&>option]:bg-surface [&>option]:text-text"
             >
               <option value="all">جميع الأدوار ({users.length})</option>
-              <option value="USER">USER — مسافر ({travelerCount})</option>
-              <option value="ADMIN">ADMIN — مدير النظام ({adminCount})</option>
+              <option value="USER">مسافر ({travelerCount})</option>
+              <option value="ADMIN">مدير النظام ({adminCount})</option>
             </select>
 
             {(filters.search || filters.role !== 'all') && (
@@ -130,7 +130,7 @@ export function UsersContentSection() {
         <EmptyStateCard
           iconName="alert"
           title="تعذر تحميل سجل المستخدمين"
-          description="تحقق من اتصال خادم مَسار وصلاحية المشرف."
+          description="تحقق من الاتصال وصلاحية المشرف."
         />
       ) : filteredUsers.length === 0 ? (
         <EmptyStateCard

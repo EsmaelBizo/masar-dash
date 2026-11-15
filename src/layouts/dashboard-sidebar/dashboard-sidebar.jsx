@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { SIDEBAR_NAV_GROUPS, API_DOCS_LINKS, ROUTES } from '../../constants/routes';
+import { SIDEBAR_NAV_GROUPS, ROUTES } from '../../constants/routes';
 import { useDashboardStore } from '../../store/use-dashboard-store';
 import { useAuthStore } from '../../store/use-auth-store';
 import { useToastStore } from '../../store/use-toast-store';
@@ -163,32 +163,12 @@ export function DashboardSidebar() {
               </span>
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#3B8C77]">
                 <span className="size-2 rounded-full bg-[#3B8C77] animate-pulse" />
-                متصل
+                نشط
               </span>
             </div>
             <p className="m-0 text-xs leading-relaxed text-muted">
               دمشق — حمص — حماة — حلب تعمل بكامل الطاقة التشغيلية.
             </p>
-            <div className="mt-3 flex flex-col gap-1.5 border-t border-border pt-2.5 text-[10px]">
-              <a
-                href={API_DOCS_LINKS.DASHBOARD_SWAGGER}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-between rounded-lg bg-bg/50 px-2.5 py-1.5 font-semibold text-muted transition-colors hover:text-[#C88A32]"
-              >
-                <span>Dashboard Swagger</span>
-                <SairnaIcon name="external-link" size={12} />
-              </a>
-              <a
-                href={API_DOCS_LINKS.WEBSITE_SWAGGER}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-between rounded-lg bg-bg/50 px-2.5 py-1.5 font-semibold text-muted transition-colors hover:text-[#C88A32]"
-              >
-                <span>Website Swagger</span>
-                <SairnaIcon name="external-link" size={12} />
-              </a>
-            </div>
           </div>
         )}
       </div>
