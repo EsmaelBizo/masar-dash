@@ -1,43 +1,111 @@
-# لوحة تحكم منصة «مَسار | MASAR» — SAIRNA Dashboard
+# MASAR Dashboard
 
-لوحة الإدارة المركزية لمنصة **مَسار | MASAR** لحجز رحلات البولمانات بين المحافظات السورية، مبنية بنفس التقنيات والهيكلية المعمارية ونظام التصميم المعتمد في الموقع المرجعي (`reference.zip`) ووفق دليل الهوية البصرية المرفق.
+<p align="center">
+  <strong>Central operations dashboard for MASAR</strong><br />
+  Manage intercity bus journeys, bookings, operators, cities, and travellers from one focused workspace.
+</p>
 
-## التقنيات والمعمارية (Tech Stack & Architecture)
-- **الإطار الأساسي:** React 19 + Vite 6
-- **التصميم والهوية البصرية:** Tailwind CSS v4 (`@import "tailwindcss";`) مع نظام ألوان التراث السوري المعاصر (الأزرق الدمشقي `#163A5F`، الأخضر الحلبي `#2E6F5E`، الذهبي التدمري `#C88A32`، الحجري الكلسي `#F7F4EE`، الرمادي البازلتي `#23272D`، وأحمر الوردة الشامية `#B83B3B`) وشريط الأبلق السوري (`ablaq-ribbon`).
-- **الخطوط الرقمية:** `Readex Pro` للعناوين، `IBM Plex Sans Arabic` للنصوص، و`Plus Jakarta Sans` للأرقام والأسعار (`tabular-nums`).
-- **إدارة الحالة والبيانات:**
-  - `@tanstack/react-query` لجلب البيانات وتحديثها وإبطال الكاش تلقائياً بعد كل عملية إنشاء أو تعديل أو حذف.
-  - `zustand` لإدارة جلسة المشرف (`use-auth-store.js`)، المظهر الليلي/النهاري (`use-theme-store.js`)، الإشعارات (`use-toast-store.js`)، وحالة الفلاتر والنوافذ (`use-dashboard-store.js`).
-  - `axios` مع Interceptors لإرفاق رمز التوثيق (`Bearer Token`) تلقائياً في `src/services/api-client.js`.
-- **الرسوم البيانية والأيقونات:** `recharts` + `lucide-react` عبر مكون `SairnaIcon`.
+<p align="center">
+  <a href="https://masar-dash.netlify.app/">Live Platform</a>
+  ·
+  <a href="https://masar-pullman.netlify.app/">Live Dashboard</a>
+  ·
+  <a href="https://github.com/EsmaelBizo/masar-dash">Source Code</a>
+</p>
 
-## الربط مع الباك إند (SAIRNA BACKEND)
-- **Dashboard Base URL:** `https://sairna.abdulrahman-hares.com/api/v1/dashboard`
-- **Health Check:** `https://sairna.abdulrahman-hares.com/api/v1/health`
-- **Dashboard Swagger:** `https://sairna.abdulrahman-hares.com/api/docs/dashboard`
+## Overview
 
-### بيانات دخول المشرف (Admin Credentials)
-- **البريد الإلكتروني:** `admin@gmail.com`
-- **كلمة المرور:** `1111111111111111`
-- **الصلاحية:** `ADMIN`
-- **مسار الدخول:** `POST /api/v1/dashboard/auth/login`
+MASAR Dashboard is the administration portal for [MASAR](https://masar-dash.netlify.app/), a digital platform for discovering and booking intercity bus journeys across Syria. It gives authorized operators a clear, responsive interface for monitoring operations and managing the data that powers the passenger experience.
 
-## الوحدات والصفحات المتوفرة
-1. **تسجيل دخول المشرف (`/login`):** مربوط مع `POST /auth/login` مع زر تعبئة تلقائية لبيانات المشرف المعتمد.
-2. **لوحة القيادة والإحصائيات (`/overview` أو `/`):** مربوطة مع `GET /overview` وتعرض المؤشرات الخمسة الرئيسية، الإيرادات المؤكدة، الرسوم البيانية لأداء الشركات وتوزيع حالات الحجوزات، وأحدث الرحلات والتذاكر.
-3. **إدارة رحلات البولمان (`/trips`):** مربوطة مع `GET /trips`، `GET /trips/{id}`، `POST /trips`، `PATCH /trips/{id}`، و`DELETE /trips/{id}` مع محاكي ومخطط تفاعلي لمقاعد البولمان (VIP 2+1 والسياحي 2+2).
-4. **إدارة الحجوزات والتذاكر (`/bookings`):** مربوطة مع `GET /bookings`، `GET /bookings/{id}`، و`POST /bookings/{id}/cancel` مع نافذة معاينة تذكرة الصعود الإلكترونية (`E-Ticket QR`).
-5. **إدارة شركات النقل المعتمدة (`/companies`):** مربوطة مع `GET /companies`، `POST /companies`، `PATCH /companies/{id}`، و`DELETE /companies/{id}`.
-6. **المحافظات والكراجات السورية (`/cities`):** مربوطة مع `GET /cities` مع خريطة تفاعلية لمسارات القوافل بين المحافظات وحاسبة المسافات البرية.
-7. **المسافرون والحسابات (`/users`):** مربوطة مع `GET /users` و`GET /users/{id}` مع نافذة استعراض سجل حجوزات ومدفوعات كل مسافر.
+The dashboard is deployed on Netlify:
 
-## طريقة التشغيل
+**https://masar-pullman.netlify.app/**
+
+## Key Capabilities
+
+- **Operations overview** — Monitor core KPIs, confirmed revenue, company performance, booking status, recent trips, and recent tickets.
+- **Trip management** — Create, update, inspect, and remove journeys with interactive seat layouts for VIP `2+1` and standard `2+2` configurations.
+- **Booking and ticket management** — Review bookings, cancel reservations, and preview electronic boarding tickets with QR codes.
+- **Transport company management** — Maintain the directory of approved bus operators and their service information.
+- **City and route management** — Browse Syrian cities and garages, visualize routes, and calculate overland distances.
+- **Traveller management** — Review traveller profiles, booking history, and payment activity.
+- **Responsive experience** — Use the portal comfortably across desktop and smaller screens with light and dark themes.
+
+## Technology
+
+- React 19 and Vite 6
+- Tailwind CSS 4
+- React Router 7
+- TanStack React Query for server-state management and cache invalidation
+- Zustand for authentication, theme, dashboard, and notification state
+- Axios with bearer-token authentication interceptors
+- Recharts for analytics
+- Lucide React for icons
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or later
+- npm
+
+### Installation
+
 ```bash
 npm install
+```
+
+### Development
+
+```bash
 npm run dev
 ```
-ولبناء نسخة الإنتاج:
+
+Vite will start a local development server and provide the local URL in the terminal.
+
+### Production Build
+
 ```bash
 npm run build
 ```
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## API Integration
+
+The dashboard communicates with the MASAR backend through the following services:
+
+- **Dashboard API:** `https://sairna.abdulrahman-hares.com/api/v1/dashboard`
+- **Health check:** `https://sairna.abdulrahman-hares.com/api/v1/health`
+- **API documentation:** `https://sairna.abdulrahman-hares.com/api/docs/dashboard`
+
+Authentication is handled through the dashboard login flow. Credentials are intentionally not stored in this repository; use the environment and access policy provided for your deployment.
+
+## Project Structure
+
+```text
+src/
+├── app/          # Application providers and routes
+├── components/   # Reusable UI and shared business components
+├── hooks/        # Query, mutation, and interaction hooks
+├── layouts/      # Dashboard shell, header, and navigation
+├── pages/        # Authentication and dashboard pages
+├── services/     # API clients and backend services
+└── store/        # Zustand stores
+```
+
+## Product Links
+
+| Resource | Link |
+| --- | --- |
+| MASAR passenger platform | [masar-dash.netlify.app](https://masar-dash.netlify.app/) |
+| MASAR administration dashboard | [masar-pullman.netlify.app](https://masar-pullman.netlify.app/) |
+| GitHub repository | [EsmaelBizo/masar-dash](https://github.com/EsmaelBizo/masar-dash) |
+
+## License
+
+This project is maintained for the MASAR platform. Add licensing terms here if the project is released for external use.
