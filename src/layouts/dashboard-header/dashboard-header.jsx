@@ -159,7 +159,7 @@ export function DashboardHeader({ onOpenCommand }) {
             </span>
             <div className="hidden xl:flex flex-col leading-tight">
               <strong className="text-[11px] font-bold text-text">
-                {user?.name || 'مدير النظام'}
+                {'masar admin'}
               </strong>
               <span
                 dir="ltr"
